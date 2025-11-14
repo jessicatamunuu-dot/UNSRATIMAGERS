@@ -1,3 +1,4 @@
+<!-- Updated index.html -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -25,10 +26,14 @@
 
     <div class="input-section">
       <h3>Tambahkan Ayat Favorit Anda ✍️</h3>
-      <input type="text" id="name" placeholder="Masukkan nama Anda...">
-      <textarea id="verseInput" rows="3" placeholder="Tulis ayat favorit Anda di sini..."></textarea>
-      <button onclick="addVerse()">Tambahkan</button>
-      <div id="customVerses"></div>
+
+      <div class="input-row">
+        <input type="text" id="name" placeholder="Masukkan nama Anda...">
+        <textarea id="verseInput" rows="2" placeholder="Tulis ayat favorit Anda..."></textarea>
+        <button onclick="addVerse()">Tambahkan</button>
+      </div>
+
+      <div id="customVerses" class="custom-list"></div>
     </div>
   </div>
 
