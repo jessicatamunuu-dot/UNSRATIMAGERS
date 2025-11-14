@@ -1,8 +1,7 @@
+// Updated script.js
+
 document.addEventListener("DOMContentLoaded", function () {
 
-  // =============================
-  // LIST AYAT UNTUK RANDOM
-  // =============================
   const bibleVerses = [
     "Mazmur 23:1", "Filipi 4:13", "Yeremia 29:11", "Roma 8:28", "Yesaya 41:10",
     "Amsal 3:5", "Matius 5:16", "Mazmur 46:2", "Efesus 4:32", "Yohanes 14:27",
@@ -11,38 +10,19 @@ document.addEventListener("DOMContentLoaded", function () {
   ];
 
   const planContainer = document.getElementById("plan-container");
+  if (!planContainer) return;
 
-  // Safety check jika terjadi loading terlalu cepat
-  if (!planContainer) {
-    console.error("ERROR: plan-container tidak ditemukan!");
-    return;
-  }
+  const startDate = new Date(2025, 10, 15);
+  const endDate = new Date(2025, 11, 31);
 
-  // =============================
-  // RANGE TANGGAL
-  // =============================
-  const startDate = new Date(2025, 10, 15); 
-  const endDate = new Date(2025, 11, 31);   
-
-  // =============================
-  // FUNGSI RANDOM AYAT
-  // =============================
   function getRandomVerse() {
     return bibleVerses[Math.floor(Math.random() * bibleVerses.length)];
   }
 
-  // =============================
-  // LOAD STATUS PLAN DARI LOCALSTORAGE
-  // =============================
   let savedPlanStatus = JSON.parse(localStorage.getItem("readingPlan")) || {};
-
-  // =============================
-  // GENERATE BIBLE READING PLAN
-  // =============================
   let index = 0;
 
   for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
-
     const itemId = `plan-${index}`;
 
     const planItem = document.createElement("div");
@@ -61,7 +41,6 @@ document.addEventListener("DOMContentLoaded", function () {
     checkmark.classList.add("checkmark");
     checkmark.textContent = "✅";
 
-    // SIMPAN STATUS CHECKLIST
     planItem.addEventListener("click", () => {
       planItem.classList.toggle("checked");
       savedPlanStatus[itemId] = planItem.classList.contains("checked");
@@ -76,9 +55,10 @@ document.addEventListener("DOMContentLoaded", function () {
     index++;
   }
 
-  // =============================
-  // SIMPAN AYAT FAVORIT USER
-  // =============================
+  // ===============================
+  // AYAT CUSTOM USER
+  // ===============================
+
   function addVerse() {
     const name = document.getElementById("name").value.trim();
     const verse = document.getElementById("verseInput").value.trim();
@@ -89,8 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const customVerses = JSON.parse(localStorage.getItem("customVerses")) || [];
-
-    const newData = { name, verse };
+    const newData = { id: Date.now(), name, verse };
     customVerses.push(newData);
 
     localStorage.setItem("customVerses", JSON.stringify(customVerses));
@@ -101,12 +80,16 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("verseInput").value = "";
   }
 
-  // Agar tombol di HTML bisa memanggil fungsi ini
   window.addVerse = addVerse;
 
-  // =============================
-  // TAMPILKAN AYAT FAVORIT DARI LOCALSTORAGE
-  // =============================
+  function deleteVerse(id) {
+    let custom = JSON.parse(localStorage.getItem("customVerses")) || [];
+    custom = custom.filter(v => v.id !== id);
+    localStorage.setItem("customVerses", JSON.stringify(custom));
+    displayCustomVerses();
+  }
+  window.deleteVerse = deleteVerse;
+
   function displayCustomVerses() {
     const container = document.getElementById("customVerses");
     container.innerHTML = "";
@@ -116,7 +99,10 @@ document.addEventListener("DOMContentLoaded", function () {
     customVerses.forEach(item => {
       const div = document.createElement("div");
       div.className = "custom-verse";
-      div.textContent = `"${item.verse}" — ${item.name}`;
+      div.innerHTML = `
+        "${item.verse}" — <b>${item.name}</b>
+        <button class="del-btn" onclick="deleteVerse(${item.id})">Hapus</button>
+      `;
       container.appendChild(div);
     });
   }
