@@ -1,0 +1,116 @@
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  flex-direction: row;
+  background: linear-gradient(135deg, #2e1760, #6c48c5);
+  color: white;
+}
+
+/* Sidebar */
+.sidebar {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 20px;
+  margin: 10px;
+  width: 300px;
+  height: fit-content;
+}
+
+.plan {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.plan-item {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 15px;
+  padding: 12px;
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+  position: relative;
+}
+
+.plan-item:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.plan-date-text {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.plan-verse {
+  font-size: 0.9rem;
+  margin-top: 5px;
+  line-height: 1.3em;
+}
+
+.checkmark {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  display: none;
+}
+
+.checked .checkmark {
+  display: block;
+}
+
+/* Konten Utama */
+.content {
+  flex: 1;
+  padding: 20px;
+  margin: 10px;
+}
+
+.verse {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 10px;
+}
+
+/* MOBILE FIX */
+@media (max-width: 768px) {
+
+  body {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .sidebar {
+    width: 90%;
+    max-width: 500px;
+    margin-bottom: 20px;
+  }
+
+  .plan {
+    max-height: 50vh;
+  }
+
+  .plan-item {
+    width: 100%;
+    font-size: 0.9rem;
+  }
+
+  .content {
+    width: 90%;
+    max-width: 500px;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+    text-align: center;
+  }
+
+  .verse {
+    font-size: 1rem;
+  }
+}
